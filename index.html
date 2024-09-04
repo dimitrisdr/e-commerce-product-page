@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <!-- fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@100..900&display=swap" rel="stylesheet">
+  <!-- js  -->
+   <script src="main.js" defer></script>
+  <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+  <!-- custol style -->
+  <link rel="stylesheet" href="style.css">
+  <title>Frontend Mentor | E-commerce product page</title>
+
+</head>
+<body>
+  <div class="wraper">
+    
+    <header class="header">
+      <div class="menu-btn-container">
+        <label for="menu-btn" class="menu-icon btn">
+          <img src="images\icon-menu.svg" alt="menu button" class="img menu-icon-img">
+        </label>
+        <img class="img logo-img" src="images\logo.svg" alt="logo image"></object>
+        <input id="menu-btn" type="checkbox">
+        <nav class="navbar">
+          <label for="menu-btn" class="btn close-btn">
+            <img class="close-icon" src="images\icon-close.svg" type="image/svg+xml"></img>
+          </label>
+          <ul class="nav-items fw-700">
+            <li class="nav-item"><a href="" class="nav-link">Collections</a></li>
+            <li class="nav-item"><a href="" class="nav-link">Men</a></li>
+            <li class="nav-item"><a href="" class="nav-link">Women</a></li>
+            <li class="nav-item"><a href="" class="nav-link">About</a></li>
+            <li class="nav-item"><a href="" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+      <div class="cart-box-container">  
+        <button class="btn-cart-btn">  
+          <img src="images\icon-cart.svg" alt="add to cart img"></img>    
+        </button>
+        <img src="images\image-avatar.png" alt="Your profile image" class="img user-img">    
+      </div>
+    </header>
+    
+    <main class="product-content">
+      <section class="product-images-container" aria-label="Product images">
+        <div class="images-container">
+          <button data-state="back" class="btn move-btn">
+            <img src="images\icon-previous.svg" alt="forward image" class="img backward-img">
+          </button>
+          <ul class="main-images-container">
+            <li data-name="product-1" class="main-images-item current-slide" aria-hidden="false">
+              <img src="images\image-product-1.jpg" alt="main product image" class="big-img">
+            </li>
+            <li data-name="product-2" class="main-images-item" aria-hidden="true">
+              <img src="images\image-product-2.jpg" alt="main product image" class="big-img secondary-image">
+            </li>
+            <li data-name="product-3" class="main-images-item" aria-hidden="true">
+              <img src="images\image-product-3.jpg" alt="main product image" class="big-img secondary-image">
+            </li>
+            <li data-name="product-4" class="main-images-item" aria-hidden="true">
+              <img src="images\image-product-4.jpg" alt="main product image" class="big-img secondary-image">
+            </li>   
+          </ul>
+          <button data-state="fw" class="btn move-btn">
+            <img src="images\icon-next.svg" alt="forward image" class="img forward-img">
+          </button>
+        </div>
+        <ul  class="smaller-images-container">
+          <li data-name="product-1" data-active="true" class="smaller-images-item"> 
+            <img src="images\image-product-1-thumbnail.jpg" alt="Product image" class="small-img">
+          </li>
+          <li data-name="product-2" data-active="false" class="smaller-images-item">
+            <img src="images\image-product-2-thumbnail.jpg" alt="Product image" class="small-img">
+          </li>
+          <li data-name="product-3" data-active="false" class="smaller-images-item">
+            <img src="images\image-product-3-thumbnail.jpg" alt="Product image" class="small-img">
+          </li>
+          <li data-name="product-4" data-active="false" class="smaller-images-item">
+            <img src="images\image-product-4-thumbnail.jpg" alt="Product image" class="small-img">
+          </li>       
+        </ul>
+      </section>
+      <section class="main-content">
+        <div class="titles-container">
+          <span class="small-title clr-grey">Sneaker Company</span>
+          <h1 class="main-title fw-700">Fall Limited Edition Sneakers</h1>
+        </div>
+        <p class="product-description clr-grey">
+          These low-profile sneakers are your perfect casual wear companion. Featuring a 
+          durable rubber outer sole, they’ll withstand everything the weather can offer.
+        </p>
+        <div class="product-values-container fw-700">
+          <div class="real-values-container">
+            <span class="real-value txt-big"> $125.00</span>
+            <span class="discount"> 50%</span>
+          </div>
+          <del class="past-value clr-grey">$250.00</del>
+        </div>
+        <div class="order-container">
+          <div class="items-magnitude-container">
+            <button class="btn minus-btn">
+              <img src="images\icon-minus.svg" alt="minus sign"></img>
+            </button>
+            <span class="products-number fw-700">0</span>
+            <button class="btn minus-btn">
+              <img src="images\icon-plus.svg" alt="Plus sign"></img>
+            </button>
+          </div>
+          <button class="btn add-to-cart-btn">Add to cart</button>
+        </div>
+      </section>
+    </main>
+
+    <article class="lightbox-container" aria-label="lightbox" aria-hidden="true">
+      <div class="lightbox">
+        <button class="btn x-mark-icon-btn">
+          <svg class="x-mark-icon-img" xmlns="http://www.w3.org/2000/svg"><path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" fill="#69707D" fill-rule="evenodd"/></svg>
+        </button>
+      </div>
+    </article>
+  
+    <footer class="footer">
+      <div class="attribution">
+        Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+        Coded by <a href="#">Your Name Here</a>.
+      </div>
+    </footer>
+</div>
+</body>
+</html>
