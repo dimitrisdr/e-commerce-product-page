@@ -93,7 +93,7 @@ const changeMainImg = (e) => {
 
 const changeOrderValue = (orderEl, amount) => {
     let amountNow = Number(+orderEl.innerText)
-    return amountNow + amount
+    orderValueEl.innerText =  amountNow + amount
 }
 
 
@@ -120,7 +120,7 @@ matchMediaQuery.addEventListener('change', handleMediaQueryChange)
 orderBtns.forEach(orderBtn => orderBtn.addEventListener('click', ()=> {
     const dir = orderBtn.id === 'reduce-btn' ? -1 : 1;
     if (dir === -1 && orderValueEl.innerText === '0') return
-    orderValueEl.innerText = changeOrderValue(orderValueEl, dir)
+    changeOrderValue(orderValueEl, dir)
 }))
 // main
 
