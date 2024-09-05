@@ -10,7 +10,7 @@ let lightBox = document.querySelector('.lightbox')
 let lightBoxCloseBtn = document.querySelector('.x-mark-icon-btn')
 let smallerImagesContainer = document.querySelectorAll('.smaller-images-item')
 let imagesPositionJSON = []
-const matchMediaQuery = window.matchMedia('(max-width:939px)')
+const matchMediaQuery = window.matchMedia('(max-width:749px)')
 // funtcions //
 
 const updateItemsPosition = (itemsLngth, step, dict) => {
