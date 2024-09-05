@@ -3,14 +3,19 @@ let productImagesContainer = document.querySelector('.product-images-container')
 let carousel = document.querySelector('.main-images-container');
 let carouselItems = Array.from(carousel.children)
 let mainImg = carouselItems[0]
-const startMainImgSrc = 'images/image-product-1.jpg'
 let moveBtns = document.querySelectorAll('.move-btn')
 let lightBoxContainer = document.querySelector('.lightbox-container')
 let lightBox = document.querySelector('.lightbox')
 let lightBoxCloseBtn = document.querySelector('.x-mark-icon-btn')
 let smallerImagesContainer = document.querySelectorAll('.smaller-images-item')
 let imagesPositionJSON = []
-const matchMediaQuery = window.matchMedia('(max-width:749px)')
+let mediaThresshold = 749
+
+const startMainImgSrc = 'images/image-product-1.jpg'
+const matchMediaQuery = window.matchMedia(`(max-width:${mediaThresshold}px)`)
+const orderBtns = document.querySelectorAll('#reduce-btn, #increase-btn')
+console.log(orderBtns)
+const orderValueEl = document.querySelector('.products-number')
 // funtcions //
 
 const updateItemsPosition = (itemsLngth, step, dict) => {
@@ -37,18 +42,6 @@ const findItems = (container, stateForCurrActiveEl, forwardState)=> {
     return nextItem !== null ? {thisItem: activeItem, nextItemToActive: nextItem} : null
 }
 
-const changeLightBoxMainImgs = (e) => {
-    let thisBtn = e.target.closest('button')
-    const thisParent = thisBtn.parentElement.parentElement
-    let mainImg = thisParent.querySelector('.current-slide img');
-    const smallImagesContainers = Array.from(thisParent.querySelectorAll('.smaller-images-item'))
-    const elementsToToggle = findItems(container=smallImagesContainers, stateForCurrActiveEl='.smaller-images-item[data-active="true"]', forwardState = thisBtn.dataset.state === 'fw')
-    if (!elementsToToggle) return
-    changeItem(elementsToToggle.thisItem, elementsToToggle.nextItemToActive, 'data-active', true)
-    let newImgSrc = `images/image-${elementsToToggle.nextItemToActive.dataset.name}.jpg` 
-    mainImg.setAttribute('src', newImgSrc)
-}
-
 const createLightBoxContent = (box, content) => {
     const clonedProductImagesContainer = content.cloneNode(true)
     let imagesContainer = clonedProductImagesContainer.querySelector('.main-images-container')  
@@ -57,21 +50,6 @@ const createLightBoxContent = (box, content) => {
     let newMoveBtns = clonedProductImagesContainer.querySelectorAll('.move-btn')
     newMoveBtns.forEach(btn => btn.addEventListener('click', changeLightBoxMainImgs))
 }
-
-const changeMainImg = (e) => {
-    let clickedItem = e.target.matches('.main-images-item') ? e.target : e.target.parentElement;
-    smallerImagesContainer.forEach(container=> {
-        if (container.getAttribute('data-active') === 'true') container.setAttribute('data-active', 'false')
-    })
-    clickedItem.setAttribute('data-active', 'true')
-    let thisImgName = clickedItem.dataset.name
-    const thisParent = clickedItem.closest('.product-images-container')
-    let mainImg = thisParent.querySelector('.big-img')
-    let newImgSrc = `images/image-${thisImgName}.jpg` 
-    mainImg.setAttribute('src', newImgSrc)
-}
-
-
 
 const handleMediaQueryChange = (e) => {
     if (e.matches) {
@@ -89,6 +67,36 @@ const handleMediaQueryChange = (e) => {
     }
 }
 
+const changeImage = (parent, imgTargetClass, imgToChangeName) => {
+    let mainImg = parent.querySelector(imgTargetClass);
+    let newImgSrc = `images/image-${imgToChangeName}.jpg` 
+    mainImg.setAttribute('src', newImgSrc)
+}
+
+const changeLightBoxMainImgs = (e) => {
+    let thisBtn = e.target.closest('button')
+    const thisParent = thisBtn.parentElement.parentElement
+    const smallImagesContainers = Array.from(thisParent.querySelectorAll('.smaller-images-item'))
+    const elementsToToggle = findItems(container=smallImagesContainers, stateForCurrActiveEl='.smaller-images-item[data-active="true"]', forwardState = thisBtn.dataset.state === 'fw')
+    if (!elementsToToggle) return
+    changeItem(elementsToToggle.thisItem, elementsToToggle.nextItemToActive, 'data-active', true)
+    changeImage(thisParent, '.current-slide img', elementsToToggle.nextItemToActive.dataset.name)
+}
+
+const changeMainImg = (e) => {
+    let clickedItem = e.target.matches('.smaller-images-item') ? e.target : e.target.parentElement;
+    smallerImagesContainer.forEach(container=> {container.setAttribute('data-active', 'false')})
+    clickedItem.setAttribute('data-active', 'true')
+    const thisParent = clickedItem.closest('.product-images-container')
+    changeImage(thisParent, '.big-img', clickedItem.dataset.name)
+}
+
+const changeOrderValue = (orderEl, amount) => {
+    let amountNow = Number(+orderEl.innerText)
+    return amountNow + amount
+}
+
+
 // event listeners
 
 moveBtns.forEach(btn => btn.addEventListener('click', ()=> {
@@ -101,22 +109,21 @@ moveBtns.forEach(btn => btn.addEventListener('click', ()=> {
 }))
 
 mainImg.addEventListener('click', ()=> {
-    if (window.innerWidth < 940) return
+    if (window.innerWidth < mediaThresshold) return
     lightBoxContainer.setAttribute('aria-hidden', 'false')}
 )
+
 lightBoxCloseBtn.addEventListener('click', ()=> {lightBoxContainer.setAttribute('aria-hidden', 'true')})
 smallerImagesContainer.forEach(img => img.addEventListener('click', changeMainImg))
 matchMediaQuery.addEventListener('change', handleMediaQueryChange)
 
+orderBtns.forEach(orderBtn => orderBtn.addEventListener('click', ()=> {
+    const dir = orderBtn.id === 'reduce-btn' ? -1 : 1;
+    if (dir === -1 && orderValueEl.innerText === '0') return
+    orderValueEl.innerText = changeOrderValue(orderValueEl, dir)
+}))
 // main
 
 imagesPositionJSON = updateItemsPosition(itemsLngth = carouselItems.length, step = 100, dict = imagesPositionJSON);
 placeItemsTonewPosition(carouselItems, imagesPositionJSON);
-createLightBoxContent(lightBox, productImagesContainer)
-
-
-
-
-
-
-
+createLightBoxContent(lightBox, productImagesContainer);
