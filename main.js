@@ -28,12 +28,14 @@ const addToCarBtn = document.querySelector('.add-to-cart-btn')
 // funtcions //
 
 const updateItemsPosition = (itemsLngth, step, dict) => {
+
     if (dict.length === 0) {
         dict = Array.from({length:itemsLngth}, (_, i)=> 0 + i*step);
     }else {
         dict = dict.map(e => e += step);
     }
     return dict
+    
 }
 
 const placeItemsTonewPosition = (items, object) => {
