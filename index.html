@@ -17,7 +17,6 @@
 </head>
 <body>
   <div class="wraper">
-    
     <header class="header">
       <div class="menu-btn-container">
         <label for="menu-btn" class="menu-icon btn">
@@ -39,10 +38,30 @@
         </nav>
       </div>
       <div class="cart-box-container">  
-        <button class="btn cart-btn">  
+        <button class="btn cart-btn" data-items="0">  
           <img src="images\icon-cart.svg" alt="add to cart img"></img>    
         </button>
         <img src="images\image-avatar.png" alt="Your profile image" class="img user-img">    
+      </div>
+      <div class="cart-container" aria-hidden="true">
+        <div class="cart-title-container">
+          <h2 class="cart-title fw-700">Cart</h2>
+        </div>
+        <div class="cart-wraper" aria-hidden="true">
+          <div class="cart-content">
+            <img src="images\image-product-1-thumbnail.jpg" alt="cart Image" class="img cart-img">
+            <p class="cart-txt">
+              Fall Limited Edition Sneakers <br> $125.00 x <span class="order-times"></span> <span class="final-price fw-700"></span> 
+            </p>
+            <button class="btn delete-btn">
+              <img src="images\icon-delete.svg" alt="delete Image">
+            </button>
+          </div>
+          <button class="btn cart-checkout-btn fw-700">Checkout</button>
+        </div>
+        <div class="empty-cart-content" aria-hidden="false">
+          <p>Your cart is empty</p> 
+        </div>
       </div>
     </header>
     

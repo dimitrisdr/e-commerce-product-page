@@ -1,28 +1,37 @@
 // variables //
-let productImagesContainer = document.querySelector('.product-images-container')
+let productImagesContainer = document.querySelector('.product-images-container');
 let carousel = document.querySelector('.main-images-container');
-let carouselItems = Array.from(carousel.children)
-let mainImg = carouselItems[0]
-let moveBtns = document.querySelectorAll('.move-btn')
-let lightBoxContainer = document.querySelector('.lightbox-container')
-let lightBox = document.querySelector('.lightbox')
-let lightBoxCloseBtn = document.querySelector('.x-mark-icon-btn')
-let smallerImagesContainer = document.querySelectorAll('.smaller-images-item')
-let imagesPositionJSON = []
-let mediaThresshold = 749
+let carouselItems = Array.from(carousel.children);
+let mainImg = carouselItems[0];
+let moveBtns = document.querySelectorAll('.move-btn');
+let lightBoxContainer = document.querySelector('.lightbox-container');
+let lightBox = document.querySelector('.lightbox');
+let lightBoxCloseBtn = document.querySelector('.x-mark-icon-btn');
+let smallerImagesContainer = document.querySelectorAll('.smaller-images-item');
+let cartContnet = document.querySelector('.cart-txt')
+let numberOfOrderedProductsEl = document.querySelector('.order-times')
+let totalPriceEl = document.querySelector('.final-price')
+let trashBtn = document.querySelector('.delete-btn')
+let imagesPositionJSON = [];
+let mediaThresshold = 749;
 
-const startMainImgSrc = 'images/image-product-1.jpg'
-const matchMediaQuery = window.matchMedia(`(max-width:${mediaThresshold}px)`)
-const orderBtns = document.querySelectorAll('#reduce-btn, #increase-btn')
-console.log(orderBtns)
-const orderValueEl = document.querySelector('.products-number')
+const startItemPriceAfterDiscount = 125
+const cartWraper = document.querySelector('.cart-wraper')
+const emptyCartContent = document.querySelector('.empty-cart-content') 
+const startMainImgSrc = 'images/image-product-1.jpg';
+const matchMediaQuery = window.matchMedia(`(max-width:${mediaThresshold}px)`);
+const orderBtns = document.querySelectorAll('#reduce-btn, #increase-btn');
+const orderValueEl = document.querySelector('.products-number');
+const cartBtn = document.querySelector('.cart-btn');
+const cartBoxContainer = document.querySelector('.cart-container');
+const addToCarBtn = document.querySelector('.add-to-cart-btn')
 // funtcions //
 
 const updateItemsPosition = (itemsLngth, step, dict) => {
     if (dict.length === 0) {
-        dict = Array.from({length:itemsLngth}, (_, i)=> 0 + i*step)
+        dict = Array.from({length:itemsLngth}, (_, i)=> 0 + i*step);
     }else {
-        dict = dict.map(e => e += step)
+        dict = dict.map(e => e += step);
     }
     return dict
 }
@@ -96,6 +105,10 @@ const changeOrderValue = (orderEl, amount) => {
     orderValueEl.innerText =  amountNow + amount
 }
 
+const handleCartBox = ()=> {
+    let newAriaHiddenState = cartBoxContainer.getAttribute('aria-hidden') === 'true'? 'false':'true';
+    cartBoxContainer.setAttribute('aria-hidden', newAriaHiddenState)
+}
 
 // event listeners
 
@@ -113,15 +126,38 @@ mainImg.addEventListener('click', ()=> {
     lightBoxContainer.setAttribute('aria-hidden', 'false')}
 )
 
-lightBoxCloseBtn.addEventListener('click', ()=> {lightBoxContainer.setAttribute('aria-hidden', 'true')})
-smallerImagesContainer.forEach(img => img.addEventListener('click', changeMainImg))
-matchMediaQuery.addEventListener('change', handleMediaQueryChange)
-
 orderBtns.forEach(orderBtn => orderBtn.addEventListener('click', ()=> {
     const dir = orderBtn.id === 'reduce-btn' ? -1 : 1;
     if (dir === -1 && orderValueEl.innerText === '0') return
     changeOrderValue(orderValueEl, dir)
 }))
+
+lightBoxCloseBtn.addEventListener('click', ()=> {lightBoxContainer.setAttribute('aria-hidden', 'true')})
+smallerImagesContainer.forEach(img => img.addEventListener('click', changeMainImg))
+matchMediaQuery.addEventListener('change', handleMediaQueryChange)
+cartBtn.addEventListener('click', handleCartBox)
+
+
+addToCarBtn.addEventListener('click', ()=> {
+    let orderedItems = Number(+orderValueEl.innerText) 
+    if (orderedItems === 0){
+        changeItem(thisItem=cartWraper, nextItem=emptyCartContent, attr='aria-hidden', activeCondition=false) 
+    }else{
+        changeItem(thisItem=emptyCartContent, nextItem=cartWraper, attr='aria-hidden', activeCondition=false) 
+        let totalPriceNumber = startItemPriceAfterDiscount * orderedItems; 
+        numberOfOrderedProductsEl.innerText = orderedItems;
+        totalPriceEl.innerText = "$"+ `${totalPriceNumber}`;
+    }
+    cartBtn.setAttribute('data-items', orderedItems)
+})
+
+trashBtn.addEventListener('click', ()=> {
+    changeItem(thisItem=cartWraper, nextItem=emptyCartContent, attr='aria-hidden', activeCondition=false) 
+    cartBtn.setAttribute('data-items', '0');
+    cartBoxContainer.setAttribute('aria-hidden', 'true')
+    orderValueEl.innerText = '0';
+})
+
 // main
 
 imagesPositionJSON = updateItemsPosition(itemsLngth = carouselItems.length, step = 100, dict = imagesPositionJSON);
