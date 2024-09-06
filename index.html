@@ -23,12 +23,12 @@
           <img src="images\icon-menu.svg" alt="menu button" class="img menu-icon-img">
         </label>
         <img class="img logo-img" src="images\logo.svg" alt="logo image"></object>
-        <input id="menu-btn" type="checkbox">
+        <input id="menu-btn" type="checkbox" aria-controls="navbar">
         <nav class="navbar">
           <label for="menu-btn" class="btn close-btn">
             <img class="close-icon" src="images\icon-close.svg" type="image/svg+xml"></img>
           </label>
-          <ul class="nav-items fw-700">
+          <ul id="navbar" class="nav-items fw-700">
             <li class="nav-item"><a href="" class="nav-link">Collections</a></li>
             <li class="nav-item"><a href="" class="nav-link">Men</a></li>
             <li class="nav-item"><a href="" class="nav-link">Women</a></li>
@@ -41,7 +41,9 @@
         <button class="btn cart-btn" data-items="0">  
           <img src="images\icon-cart.svg" alt="add to cart img"></img>    
         </button>
-        <img src="images\image-avatar.png" alt="Your profile image" class="img user-img">    
+        <div class="avatar-img-container">
+          <img src="images\image-avatar.png" alt="Your profile image" class="img user-img">
+        </div>    
       </div>
       <div class="cart-container" aria-hidden="true">
         <div class="cart-title-container">
