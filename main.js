@@ -56,10 +56,12 @@ const findItems = (container, stateForCurrActiveEl, forwardState)=> {
 const createLightBoxContent = (box, content) => {
     const clonedProductImagesContainer = content.cloneNode(true)
     let imagesContainer = clonedProductImagesContainer.querySelector('.main-images-container')  
+    let smallerImagesContainer = clonedProductImagesContainer.querySelectorAll('.smaller-images-container');
     Array.from(imagesContainer.children).forEach((el, i)=> {if (i>0) imagesContainer.removeChild(el)})
     box.appendChild(clonedProductImagesContainer);
     let newMoveBtns = clonedProductImagesContainer.querySelectorAll('.move-btn')
     newMoveBtns.forEach(btn => btn.addEventListener('click', changeLightBoxMainImgs))
+    smallerImagesContainer.forEach(container => container.addEventListener('click', changeMainImg))
 }
 
 const handleMediaQueryChange = (e) => {
@@ -84,22 +86,27 @@ const changeImage = (parent, imgTargetClass, imgToChangeName) => {
     mainImg.setAttribute('src', newImgSrc)
 }
 
+const changeMainImg = (e) => {
+    let clickedItem = e.target.matches('.smaller-images-item') ? e.target : e.target.parentElement;
+    let theseImagesContainer = Array.from(e.target.closest('.smaller-images-container').children)
+    theseImagesContainer.forEach(container => container.setAttribute('data-active', 'false'))
+    clickedItem.setAttribute('data-active', 'true')
+    const thisParent = clickedItem.closest('.product-images-container')
+    changeImage(thisParent, '.big-img', clickedItem.dataset.name)
+}
+
 const changeLightBoxMainImgs = (e) => {
     let thisBtn = e.target.closest('button')
     const thisParent = thisBtn.parentElement.parentElement
     const smallImagesContainers = Array.from(thisParent.querySelectorAll('.smaller-images-item'))
-    const elementsToToggle = findItems(container=smallImagesContainers, stateForCurrActiveEl='.smaller-images-item[data-active="true"]', forwardState = thisBtn.dataset.state === 'fw')
+    const elementsToToggle = findItems(
+                            container=smallImagesContainers, 
+                            stateForCurrActiveEl='.smaller-images-item[data-active="true"]', 
+                            forwardState = thisBtn.dataset.state === 'fw'
+                        )
     if (!elementsToToggle) return
     changeItem(elementsToToggle.thisItem, elementsToToggle.nextItemToActive, 'data-active', true)
     changeImage(thisParent, '.current-slide img', elementsToToggle.nextItemToActive.dataset.name)
-}
-
-const changeMainImg = (e) => {
-    let clickedItem = e.target.matches('.smaller-images-item') ? e.target : e.target.parentElement;
-    smallerImagesContainer.forEach(container=> {container.setAttribute('data-active', 'false')})
-    clickedItem.setAttribute('data-active', 'true')
-    const thisParent = clickedItem.closest('.product-images-container')
-    changeImage(thisParent, '.big-img', clickedItem.dataset.name)
 }
 
 const changeOrderValue = (orderEl, amount) => {
