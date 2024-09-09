@@ -56,12 +56,12 @@ const findItems = (container, stateForCurrActiveEl, forwardState)=> {
 const createLightBoxContent = (box, content) => {
     const clonedProductImagesContainer = content.cloneNode(true)
     let imagesContainer = clonedProductImagesContainer.querySelector('.main-images-container')  
-    let smallerImagesContainer = clonedProductImagesContainer.querySelectorAll('.smaller-images-container');
+    let smallerImagesContainer = clonedProductImagesContainer.querySelector('.smaller-images-container');
     Array.from(imagesContainer.children).forEach((el, i)=> {if (i>0) imagesContainer.removeChild(el)})
     box.appendChild(clonedProductImagesContainer);
     let newMoveBtns = clonedProductImagesContainer.querySelectorAll('.move-btn')
     newMoveBtns.forEach(btn => btn.addEventListener('click', changeLightBoxMainImgs))
-    smallerImagesContainer.forEach(container => container.addEventListener('click', changeMainImg))
+    Array.from(smallerImagesContainer.children).forEach(container => container.addEventListener('click', changeMainImg))
 }
 
 const handleMediaQueryChange = (e) => {
