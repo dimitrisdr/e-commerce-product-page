@@ -13,13 +13,14 @@ let numberOfOrderedProductsEl = document.querySelector('.order-times')
 let totalPriceEl = document.querySelector('.final-price')
 let trashBtn = document.querySelector('.delete-btn')
 let imagesPositionJSON = [];
-let mediaThresshold = 749;
 
+const mediaThresshold = 781;
 const startItemPriceAfterDiscount = 125
 const cartWraper = document.querySelector('.cart-wraper')
 const emptyCartContent = document.querySelector('.empty-cart-content') 
 const startMainImgSrc = 'images/image-product-1.jpg';
-const matchMediaQuery = window.matchMedia(`(max-width:${mediaThresshold}px)`);
+const matchMediaQueryWidth = window.matchMedia(`(max-width:${mediaThresshold}px)`);
+const matchMediaQueryHeight = window.matchMedia('(max-height:510px)')
 const orderBtns = document.querySelectorAll('#reduce-btn, #increase-btn');
 const orderValueEl = document.querySelector('.products-number');
 const cartBtn = document.querySelector('.cart-btn');
@@ -62,6 +63,12 @@ const createLightBoxContent = (box, content) => {
     let newMoveBtns = clonedProductImagesContainer.querySelectorAll('.move-btn')
     newMoveBtns.forEach(btn => btn.addEventListener('click', changeLightBoxMainImgs))
     Array.from(smallerImagesContainer.children).forEach(container => container.addEventListener('click', changeMainImg))
+}
+
+const handleMediaQueryChangeHeight = (e) => {
+    if (e.matches) {
+        lightBoxContainer.setAttribute('aria-hidden', 'true')
+    }
 }
 
 const handleMediaQueryChange = (e) => {
@@ -131,7 +138,7 @@ moveBtns.forEach(btn => btn.addEventListener('click', ()=> {
 }))
 
 mainImg.addEventListener('click', ()=> {
-    if (window.innerWidth < mediaThresshold) return
+    if (window.innerWidth < mediaThresshold || window.innerHeight < 500 ) return
     lightBoxContainer.setAttribute('aria-hidden', 'false')}
 )
 
@@ -143,7 +150,8 @@ orderBtns.forEach(orderBtn => orderBtn.addEventListener('click', ()=> {
 
 lightBoxCloseBtn.addEventListener('click', ()=> {lightBoxContainer.setAttribute('aria-hidden', 'true')})
 smallerImagesContainer.forEach(img => img.addEventListener('click', changeMainImg))
-matchMediaQuery.addEventListener('change', handleMediaQueryChange)
+matchMediaQueryWidth.addEventListener('change', handleMediaQueryChange)
+matchMediaQueryHeight.addEventListener('change', handleMediaQueryChangeHeight)
 cartBtn.addEventListener('click', handleCartBox)
 
 
