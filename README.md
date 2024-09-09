@@ -53,16 +53,44 @@ Users should be able to:
 
 
 ```html
-<h1>Some HTML code I'm proud of</h1>
+  <article class="lightbox-container" aria-label="lightbox" aria-hidden="true">
+    <div class="lightbox">
+      <button class="btn x-mark-icon-btn">
+        <svg width="14" height="15" xmlns="http://www.w3.org/2000/svg"><path d="m11.596.782 2.122 2.122L9.12 7.499l4.597 4.597-2.122 2.122L7 9.62l-4.595 4.597-2.122-2.122L4.878 7.5.282 2.904 2.404.782l4.595 4.596L11.596.782Z" fill="#ffffff" fill-rule="evenodd"/></svg>
+      </button>
+    </div>
+  </article>
 ```
 ```css
-.proud-of-this-css {
-  color: papayawhip;
+.cart-container {
+    background-color: var(--White);
+    width: calc(100% - 1rem);
+    position: absolute;
+    top: calc(3 * var(--global-padding));
+    left:50%;
+    transform: translate(-50%, 0);
+    z-index: 100;
 }
 ```
 ```js
-const proudOfThisFunc = () => {
-  console.log('🎉')
+const mediaThresshold = 781;
+const matchMediaQueryWidth = window.matchMedia(`(max-width:${mediaThresshold}px)`)
+
+
+const handleMediaQueryChange = (e) => {
+    if (e.matches) {
+        lightBoxContainer.setAttribute('aria-hidden', 'true')
+        if (mainImg.children[0].getAttribute('src') !== startMainImgSrc ) {
+            mainImg.children[0].setAttribute('src', startMainImgSrc)
+        }
+    }else {
+        if (smallerImagesContainer[0].getAttribute('data-active') !== 'true') {
+            smallerImagesContainer.forEach(c => {if (c.getAttribute('data-active') === 'true'){
+            c.setAttribute('data-active', 'false')
+           }})
+           smallerImagesContainer[0].setAttribute('data-active', 'true') 
+        }
+    }
 }
 ```
 
